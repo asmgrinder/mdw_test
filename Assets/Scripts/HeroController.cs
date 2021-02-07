@@ -6,19 +6,15 @@ public class HeroController : MonoBehaviour
 {
 	public float torque = 50;
 	public float force = 25;
-// 	public float headOffset = -0.5f;
 	public float horizontalVelocityLimit = 2;
 	
 	private Rigidbody rb;
-	private Transform lastCoin;
 	private int coinsAttached = 0;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-// 		lastCoin = transform;
 		rb = GetComponent<Rigidbody>();
-// 		wc = GetComponent<WheelCollider>();
 	}
 
 	// Update is called once per frame
@@ -28,7 +24,7 @@ public class HeroController : MonoBehaviour
     
 	void FixedUpdate()
 	{
-		CoinController.AddTrajectoryPoint(transform.position);	// save current position
+		CoinController.AddTrajectoryPoint(transform.position);
 		
 		float horizontalInput = Input.GetAxis("Horizontal");
 		float verticalInput = Input.GetAxis("Vertical");
@@ -38,22 +34,13 @@ public class HeroController : MonoBehaviour
 		rb.AddForce(transform.right * f * horizontalInput);
 	}
 	
-// 	private void OnCollisionEnter(Collision collision)
-// 	{
-// 		Debug.Log("OnCollisionEnter");
-// 	}
-
-	void OnTriggerExit(Collider other)	// OnTriggerStay, OnTriggerExit
+	void OnTriggerExit(Collider other)
 	{
-// 		Debug.Log("Trigger enter !");
 		CoinController cc = other.gameObject.GetComponent<CoinController>();
 		if (null != cc
 			&& false == cc.IsAttached())
 		{
-// 			cc.Index = ++coinsAttached;
-// 			cc.objectToFollow = (null == lastCoin) ? transform : lastCoin;
-			cc.Attach(++coinsAttached, (null == lastCoin) ? transform : lastCoin);
-			lastCoin = other.gameObject.transform;
+			cc.Attach(++coinsAttached);
 		}
 	}
 }

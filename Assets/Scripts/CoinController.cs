@@ -7,11 +7,10 @@ public class CoinController : MonoBehaviour
 	public float followSpeed = 10;
 	public float rotSpeed = 5;
 	public float distance = 1.5f;
-// 	public Vector3 offset;
 	[HideInInspector] public int index = 0;
-	[HideInInspector] public Transform objectToFollow = null;
 	[HideInInspector] public static int maxIndex;
 	private static List<Vector3> trajectory = new List<Vector3>();
+	
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -20,7 +19,6 @@ public class CoinController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-// 		if (null != objectToFollow)
 		if (index > 0)
 		{
 			float prevDist = 0;
@@ -49,16 +47,6 @@ public class CoinController : MonoBehaviour
 			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, rotSpeed * Time.deltaTime);
 			
 			reduceTail();
-// 			Vector3 dir = transform.position - objectToFollow.position;
-// 			dir.y = 0;
-// 			Vector3 targetPos = objectToFollow.position + distance * dir.normalized;
-// 			targetPos.y = transform.position.y;
-// // 			Vector3 _targetPos = objectToFollow.position
-// // 									+ Vector3.right * offset.x
-// // // 									+ Vector3.up * offset.y
-// // 									+ Vector3.forward * offset.z;
-// // 			_targetPos.y = offset.y;
-// 			transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
 		}
 	}
 	
@@ -89,17 +77,12 @@ public class CoinController : MonoBehaviour
 	
 	public bool IsAttached()
 	{
-		return null != objectToFollow;
+		return index > 0;
 	}
 	
-	public void Attach(int Index, Transform ObjectToFollow)
+	public void Attach(int Index)
 	{
 		index = Index;
-		objectToFollow = ObjectToFollow;
 		maxIndex = Mathf.Max(maxIndex, index);
 	}
-// 	void OnTriggerEnter(Collider other)	// OnTriggerStay, OnTriggerExit
-// 	{
-// 		GetComponent<MeshCollider>().isTrigger = false;
-// 	}
 }
